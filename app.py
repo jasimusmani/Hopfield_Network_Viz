@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+
+st.set_page_config(layout="wide")
+
 # Define the patterns (zero_array, one_array, etc.) here
 zero_array=np.array([[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
                     [-1, -1, -1, 1, 1, 1, 1, -1, -1, -1], 
@@ -164,7 +167,7 @@ def calculate_energy_evolution(pattern, weights, update_mode, iterations):
 
 
 def main():
-    st.title("Hopfield Network Visualization")
+    st.title("Hopfield Network Visualization 🧠️")
 
     st.sidebar.header("Network Settings")
     selected_number = st.sidebar.selectbox("Select a number", ["0", "1", "2", "3", "4", "6", "9", "Square"])
