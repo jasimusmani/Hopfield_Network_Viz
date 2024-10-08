@@ -165,7 +165,6 @@ def calculate_energy_evolution(pattern, weights, update_mode, iterations):
 
     return energy_list
 
-
 def main():
     st.title("Hopfield Network Visualization 🧠️")
 
@@ -181,7 +180,16 @@ def main():
     pattern_index = ["0", "1", "2", "3", "4", "6", "Square", "9"].index(selected_number)
     original_pattern = input_arrays[pattern_index]
 
-    noisy_pattern = add_noise(original_pattern, noise_level)
+    if 'noisy_pattern' not in st.session_state or \
+       'last_selected_number' not in st.session_state or \
+       'last_noise_level' not in st.session_state or \
+       st.session_state.last_selected_number != selected_number or \
+       st.session_state.last_noise_level != noise_level:
+        st.session_state.noisy_pattern = add_noise(original_pattern, noise_level)
+        st.session_state.last_selected_number = selected_number
+        st.session_state.last_noise_level = noise_level
+
+    noisy_pattern = st.session_state.noisy_pattern
 
     if update_mode == "Synchronous":
         recovered_pattern = synchronous_update(noisy_pattern, weights)
@@ -197,13 +205,11 @@ def main():
     ax2.imshow(noisy_pattern.reshape(12, 10), cmap='gray', interpolation='nearest')
     ax2.set_title(f"Noisy Pattern ({noise_level:.2%} noise)")
     ax2.axis('off')
-
     ax3.imshow(recovered_pattern.reshape(12, 10), cmap='gray', interpolation='nearest')
     ax3.set_title(f"Recovered Pattern ({update_mode})")
     ax3.axis('off')
-
     st.pyplot(fig)
-
+    
     st.subheader("Hopfield Network Information")
     st.write(f"Update Mode: {update_mode}")
     if update_mode == "Asynchronous":
@@ -224,3 +230,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+    
